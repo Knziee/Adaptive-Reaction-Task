@@ -6,9 +6,19 @@ import type { JsPsych } from "jspsych";
 const AdvancedRTExperiment = () => {
   const experimentContainer = useRef<HTMLDivElement>(null);
   const jsPsychRef = useRef<JsPsych | null>(null);
+  const initializedRef = useRef(false); // Ref para controlar inicialização
 
   useEffect(() => {
-    if (jsPsychRef.current || !experimentContainer.current) return;
+    // ✅ PREVENIR INICIALIZAÇÃO DUPLA
+    if (
+      jsPsychRef.current ||
+      !experimentContainer.current ||
+      initializedRef.current
+    )
+      return;
+
+    // ✅ MARCAR COMO INICIALIZADO
+    initializedRef.current = true;
 
     const initializeExperiment = async () => {
       // ✅ IMPORTS DINÂMICOS — resolvem "window is not defined"

@@ -6,9 +6,19 @@ import type { JsPsych } from "jspsych";
 const RTExperiment = () => {
   const experimentContainer = useRef<HTMLDivElement>(null);
   const jsPsychRef = useRef<JsPsych | null>(null);
+  const initializedRef = useRef(false); // Ref para controlar inicialização
 
   useEffect(() => {
-    if (jsPsychRef.current || !experimentContainer.current) return;
+    // Prevenir inicialização dupla
+    if (
+      jsPsychRef.current ||
+      !experimentContainer.current ||
+      initializedRef.current
+    )
+      return;
+
+    // Marcar como inicializado
+    initializedRef.current = true;
 
     const initializeExperiment = async () => {
       const { initJsPsych } = await import("jspsych");
@@ -127,6 +137,8 @@ const RTExperiment = () => {
         if (displayElement && displayElement.innerHTML) {
           displayElement.innerHTML = "";
         }
+        // Também podemos resetar a flag se necessário
+        // initializedRef.current = false;
       }
     };
   }, []);
