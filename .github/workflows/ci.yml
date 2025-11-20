@@ -1,26 +1,34 @@
-name: CI
+name: Next.js CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: "npm"
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
+      - name: Run lint
+        run: npm run lint
+        continue-on-error: false
+
+      - name: Build
+        run: npm run build
+
+      - name: Tests
         run: npm test
