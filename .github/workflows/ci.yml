@@ -2,9 +2,9 @@ name: Next.js CI
 
 on:
   push:
-    branches: ["master", "fix-ci"]
+    branches: ["master", "ci-fix"]
   pull_request:
-    branches: ["master", "fix-ci"]
+    branches: ["master", "ci-fix"]
 
 jobs:
   build:
