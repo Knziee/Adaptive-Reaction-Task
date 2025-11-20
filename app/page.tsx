@@ -127,13 +127,15 @@ export default function Home() {
               transition: "all 0.3s ease",
               boxShadow: "0 2px 4px rgba(0, 122, 204, 0.3)",
             }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#005a9e";
-              e.target.style.transform = "translateY(-2px)";
+            onMouseOver={(e: React.MouseEvent<HTMLButtonElement>) => {
+              const target = e.currentTarget;
+              target.style.backgroundColor = "#005a9e";
+              target.style.transform = "translateY(-2px)";
             }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#007acc";
-              e.target.style.transform = "translateY(0)";
+            onMouseOut={(e: React.MouseEvent<HTMLButtonElement>) => {
+              const target = e.currentTarget;
+              target.style.backgroundColor = "#0078d4";
+              target.style.transform = "translateY(0)";
             }}
           >
             🎯 Experimento Básico
@@ -153,13 +155,15 @@ export default function Home() {
               transition: "all 0.3s ease",
               boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
             }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#218838";
-              e.target.style.transform = "translateY(-2px)";
+            onMouseOver={(e: React.MouseEvent<HTMLButtonElement>) => {
+              const el = e.currentTarget;
+              el.style.backgroundColor = "#218838";
+              el.style.transform = "translateY(-2px)";
             }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#28a745";
-              e.target.style.transform = "translateY(0)";
+            onMouseOut={(e: React.MouseEvent<HTMLButtonElement>) => {
+              const el = e.currentTarget;
+              el.style.backgroundColor = "#28a745";
+              el.style.transform = "translateY(0)";
             }}
           >
             🔬 Experimento Avançado
