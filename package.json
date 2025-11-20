@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint", 
+    "test": "echo \"No tests\""
+
   },
   "dependencies": {
     "@jspsych/plugin-html-keyboard-response": "^2.1.0",
