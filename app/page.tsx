@@ -1,65 +1,205 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import RTExperiment from "./components/RTExperiment";
+import AdvancedRTExperiment from "./components/AdvancedRTExperiment";
 
 export default function Home() {
+  const [currentView, setCurrentView] = useState("menu"); // 'menu', 'normal', 'advanced'
+
+  const handleBackToMenu = () => {
+    setCurrentView("menu");
+  };
+
+  if (currentView === "normal") {
+    return (
+      <div>
+        <button
+          onClick={handleBackToMenu}
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "20px",
+            padding: "10px 20px",
+            backgroundColor: "#007acc",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            zIndex: 1000,
+          }}
+        >
+          ← Voltar ao Menu
+        </button>
+        <RTExperiment />
+      </div>
+    );
+  }
+
+  if (currentView === "advanced") {
+    return (
+      <div>
+        <button
+          onClick={handleBackToMenu}
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "20px",
+            padding: "10px 20px",
+            backgroundColor: "#007acc",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            zIndex: 1000,
+          }}
+        >
+          ← Voltar ao Menu
+        </button>
+        <AdvancedRTExperiment />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#f0f2f5",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          textAlign: "center",
+          padding: "40px",
+          backgroundColor: "white",
+          borderRadius: "15px",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          maxWidth: "500px",
+          width: "90%",
+        }}
+      >
+        <h1
+          style={{
+            color: "#333",
+            marginBottom: "10px",
+            fontSize: "2.5rem",
+          }}
+        >
+          🧠 jsPsych Demo
+        </h1>
+
+        <p
+          style={{
+            color: "#666",
+            marginBottom: "40px",
+            fontSize: "1.1rem",
+            lineHeight: "1.5",
+          }}
+        >
+          Escolha um experimento para começar
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+            alignItems: "center",
+          }}
+        >
+          <button
+            onClick={() => setCurrentView("normal")}
+            style={{
+              padding: "15px 30px",
+              fontSize: "1.1rem",
+              backgroundColor: "#007acc",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              width: "250px",
+              transition: "all 0.3s ease",
+              boxShadow: "0 2px 4px rgba(0, 122, 204, 0.3)",
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#005a9e";
+              e.target.style.transform = "translateY(-2px)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#007acc";
+              e.target.style.transform = "translateY(0)";
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            🎯 Experimento Básico
+          </button>
+
+          <button
+            onClick={() => setCurrentView("advanced")}
+            style={{
+              padding: "15px 30px",
+              fontSize: "1.1rem",
+              backgroundColor: "#28a745",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              width: "250px",
+              transition: "all 0.3s ease",
+              boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#218838";
+              e.target.style.transform = "translateY(-2px)";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#28a745";
+              e.target.style.transform = "translateY(0)";
+            }}
           >
-            Documentation
-          </a>
+            🔬 Experimento Avançado
+          </button>
         </div>
-      </main>
-    </div>
+
+        <div
+          style={{
+            marginTop: "40px",
+            padding: "20px",
+            backgroundColor: "#f8f9fa",
+            borderRadius: "8px",
+            textAlign: "left",
+          }}
+        >
+          <h3 style={{ color: "#333", marginBottom: "10px" }}>
+            Descrição dos Experimentos:
+          </h3>
+          <ul style={{ color: "#666", lineHeight: "1.6", paddingLeft: "20px" }}>
+            <li>
+              <strong>Básico:</strong> Pressione ESPAÇO quando ver círculos
+              azuis
+            </li>
+            <li>
+              <strong>Avançado:</strong> Use F (azul) e J (laranja) para
+              diferentes cores
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <footer
+        style={{
+          marginTop: "30px",
+          color: "#999",
+          fontSize: "0.9rem",
+        }}
+      >
+        Desenvolvido com Next.js + jsPsych
+      </footer>
+    </main>
   );
 }
