@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { initJsPsych, JsPsych } from "jspsych";
-import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
 import { TrialData } from "../types/types";
+import type { JsPsych } from "jspsych";
 
 const AdvancedRTExperiment = () => {
   const experimentContainer = useRef<HTMLDivElement>(null);
@@ -12,6 +11,12 @@ const AdvancedRTExperiment = () => {
     if (jsPsychRef.current || !experimentContainer.current) return;
 
     const initializeExperiment = async () => {
+      // ✅ IMPORTS DINÂMICOS — resolvem "window is not defined"
+      const { initJsPsych } = await import("jspsych");
+      const HtmlKeyboardResponsePlugin = (
+        await import("@jspsych/plugin-html-keyboard-response")
+      ).default;
+
       const jsPsych = initJsPsych({
         display_element: experimentContainer.current!,
         on_finish: function () {
@@ -22,12 +27,15 @@ const AdvancedRTExperiment = () => {
 
       jsPsychRef.current = jsPsych;
 
-      experimentContainer.current!.style.display = "flex";
-      experimentContainer.current!.style.alignItems = "center";
-      experimentContainer.current!.style.justifyContent = "center";
-      experimentContainer.current!.style.minHeight = "100vh";
-      experimentContainer.current!.style.textAlign = "center";
-      experimentContainer.current!.style.flexDirection = "column";
+      // Container style
+      Object.assign(experimentContainer.current!.style, {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        textAlign: "center",
+        flexDirection: "column",
+      });
 
       const timeline = [];
 

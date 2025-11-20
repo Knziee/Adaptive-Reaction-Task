@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { initJsPsych, JsPsych } from "jspsych";
-import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
 import { TrialData } from "../types/types";
+import type { JsPsych } from "jspsych";
 
 const RTExperiment = () => {
   const experimentContainer = useRef<HTMLDivElement>(null);
@@ -12,6 +11,11 @@ const RTExperiment = () => {
     if (jsPsychRef.current || !experimentContainer.current) return;
 
     const initializeExperiment = async () => {
+      const { initJsPsych } = await import("jspsych");
+      const HtmlKeyboardResponsePlugin = (
+        await import("@jspsych/plugin-html-keyboard-response")
+      ).default;
+
       const jsPsych = initJsPsych({
         display_element: experimentContainer.current!,
         on_finish: () => {
@@ -23,16 +27,19 @@ const RTExperiment = () => {
 
       jsPsychRef.current = jsPsych;
 
-      experimentContainer.current!.style.display = "flex";
-      experimentContainer.current!.style.alignItems = "center";
-      experimentContainer.current!.style.justifyContent = "center";
-      experimentContainer.current!.style.minHeight = "100vh";
-      experimentContainer.current!.style.textAlign = "center";
-      experimentContainer.current!.style.flexDirection = "column";
+      // styling do container
+      Object.assign(experimentContainer.current!.style, {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        textAlign: "center",
+        flexDirection: "column",
+      });
 
       const timeline = [];
 
-      // Instructions
+      // Instruções
       timeline.push({
         type: HtmlKeyboardResponsePlugin,
         stimulus: `
@@ -83,9 +90,10 @@ const RTExperiment = () => {
         timeline_variables: test_stimuli,
         randomize_order: true,
       };
+
       timeline.push(test_procedure);
 
-      // Results
+      // Resultados
       timeline.push({
         type: HtmlKeyboardResponsePlugin,
         stimulus: function () {
