@@ -2,8 +2,10 @@
 import { useEffect, useRef } from "react";
 import { TrialData } from "../types/types";
 import type { JsPsych } from "jspsych";
+import { saveResult } from "@/app/service/saveResult";
+import toast from "react-hot-toast";
 
-const RTExperiment = () => {
+const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
   const experimentContainer = useRef<HTMLDivElement>(null);
   const jsPsychRef = useRef<JsPsych | null>(null);
   const initializedRef = useRef(false); // Ref para controlar inicialização
@@ -126,7 +128,37 @@ const RTExperiment = () => {
         choices: [" "],
       });
 
-      jsPsych.run(timeline);
+      async function sendResults() {
+        try {
+          const trials = jsPsych.data.get().values();
+
+          const accuracy =
+            (jsPsych.data.get().filter({ correct: true }).count() /
+              trials.length) *
+            100;
+
+          const meanRT = jsPsych.data.get().select("rt").mean();
+          console.log("Starting experiment...", trials);
+
+          await saveResult({
+            participantId: crypto.randomUUID(),
+            accuracy,
+            meanRT,
+            rawTrials: trials,
+            advanced: false,
+          });
+          toast.success("Experiment data successfully saved to Firebase!");
+          console.log("Salvo com sucesso!");
+        } catch (err) {
+          toast.error("Failed to save experiment data.");
+          console.error("Erro ao salvar:", err);
+        }
+      }
+      jsPsych.run(timeline).then(async () => {
+        await sendResults();
+        console.log("results sended.");
+        onFinish?.();
+      });
     };
 
     initializeExperiment();

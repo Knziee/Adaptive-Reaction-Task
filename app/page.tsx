@@ -2,9 +2,10 @@
 import { useState } from "react";
 import RTExperiment from "./components/RTExperiment";
 import AdvancedRTExperiment from "./components/AdvancedRTExperiment";
+import ResultsView from "./components/ResultsView";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState("menu"); // 'menu', 'normal', 'advanced'
+  const [currentView, setCurrentView] = useState("menu"); // 'menu', 'normal', 'advanced', 'results'
 
   const handleBackToMenu = () => {
     setCurrentView("menu");
@@ -12,7 +13,7 @@ export default function Home() {
 
   if (currentView === "normal") {
     return (
-      <div>
+      <>
         <button
           onClick={handleBackToMenu}
           style={{
@@ -30,14 +31,14 @@ export default function Home() {
         >
           ← Voltar ao Menu
         </button>
-        <RTExperiment />
-      </div>
+        <RTExperiment onFinish={handleBackToMenu} />
+      </>
     );
   }
 
   if (currentView === "advanced") {
     return (
-      <div>
+      <>
         <button
           onClick={handleBackToMenu}
           style={{
@@ -55,8 +56,33 @@ export default function Home() {
         >
           ← Voltar ao Menu
         </button>
-        <AdvancedRTExperiment />
-      </div>
+        <AdvancedRTExperiment onFinish={handleBackToMenu} />
+      </>
+    );
+  }
+
+  if (currentView === "results") {
+    return (
+      <>
+        <button
+          onClick={handleBackToMenu}
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "20px",
+            padding: "10px 20px",
+            backgroundColor: "#007acc",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            zIndex: 1000,
+          }}
+        >
+          ← Voltar ao Menu
+        </button>
+        <ResultsView />;
+      </>
     );
   }
 
@@ -84,13 +110,7 @@ export default function Home() {
           width: "90%",
         }}
       >
-        <h1
-          style={{
-            color: "#333",
-            marginBottom: "10px",
-            fontSize: "2.5rem",
-          }}
-        >
+        <h1 style={{ color: "#333", marginBottom: "10px", fontSize: "2.5rem" }}>
           🧠 jsPsych Demo
         </h1>
 
@@ -124,18 +144,6 @@ export default function Home() {
               borderRadius: "8px",
               cursor: "pointer",
               width: "250px",
-              transition: "all 0.3s ease",
-              boxShadow: "0 2px 4px rgba(0, 122, 204, 0.3)",
-            }}
-            onMouseOver={(e: React.MouseEvent<HTMLButtonElement>) => {
-              const target = e.currentTarget;
-              target.style.backgroundColor = "#005a9e";
-              target.style.transform = "translateY(-2px)";
-            }}
-            onMouseOut={(e: React.MouseEvent<HTMLButtonElement>) => {
-              const target = e.currentTarget;
-              target.style.backgroundColor = "#0078d4";
-              target.style.transform = "translateY(0)";
             }}
           >
             🎯 Experimento Básico
@@ -152,21 +160,25 @@ export default function Home() {
               borderRadius: "8px",
               cursor: "pointer",
               width: "250px",
-              transition: "all 0.3s ease",
-              boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
-            }}
-            onMouseOver={(e: React.MouseEvent<HTMLButtonElement>) => {
-              const el = e.currentTarget;
-              el.style.backgroundColor = "#218838";
-              el.style.transform = "translateY(-2px)";
-            }}
-            onMouseOut={(e: React.MouseEvent<HTMLButtonElement>) => {
-              const el = e.currentTarget;
-              el.style.backgroundColor = "#28a745";
-              el.style.transform = "translateY(0)";
             }}
           >
             🔬 Experimento Avançado
+          </button>
+
+          <button
+            onClick={() => setCurrentView("results")}
+            style={{
+              padding: "15px 30px",
+              fontSize: "1.1rem",
+              backgroundColor: "#6c757d",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              width: "250px",
+            }}
+          >
+            📊 Resultados Recentes
           </button>
         </div>
 
