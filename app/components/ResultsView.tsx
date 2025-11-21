@@ -128,5 +128,5 @@ export default function ResultsView() {
         </div>
       </div>
     </div>
-  );
+  )
 }

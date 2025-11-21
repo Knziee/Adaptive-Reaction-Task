@@ -81,7 +81,7 @@ export default function Home() {
         >
           ← Back to Menu
         </button>
-        <ResultsView />;
+        <ResultsView />
       </>
     );
   }
