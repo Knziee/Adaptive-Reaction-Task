@@ -17,7 +17,7 @@ export default function ResultsView() {
         if (!mounted) return;
         setResults(r);
       } catch (err) {
-        console.error("Erro ao carregar resultados:", err);
+        console.error("Failed to load results:", err);
       } finally {
         if (mounted) setLoading(false);
       }
@@ -66,7 +66,7 @@ export default function ResultsView() {
         display: "flex",
         justifyContent: "center",
         paddingTop: 30,
-        paddingBottom: 20, // 🔥 reduzido
+        paddingBottom: 20,
       }}
     >
       <div
@@ -84,43 +84,42 @@ export default function ResultsView() {
           style={{
             textAlign: "center",
             marginBottom: 24,
-            fontSize: "1.8rem", // 🔥 maior
-            fontWeight: 700, // 🔥 mais forte
+            fontSize: "1.8rem",
+            fontWeight: 700,
             color: "#111",
           }}
         >
-          Resultados Recentes
+          Recent Results
         </h1>
 
         <div
           style={{
-            maxHeight: "80vh", // 🔥 aumenta a área útil de scroll
+            maxHeight: "80vh",
             overflowY: "auto",
             paddingRight: 8,
-            paddingBottom: 0, // 🔥 remove espaço em branco no final
+            paddingBottom: 0,
           }}
         >
-          {" "}
           {results.length === 0 ? (
-            <p style={{ textAlign: "center" }}>Nenhum resultado salvo ainda.</p>
+            <p style={{ textAlign: "center" }}>No results saved yet.</p>
           ) : (
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
               {results.map((r) => (
                 <li
                   key={r.id}
                   style={{
-                    marginBottom: 14, // 🔥 menor
+                    marginBottom: 14,
                     padding: 12,
                     background: "#fafafa",
                     borderRadius: 8,
                     border: "1px solid #e5e7eb",
                   }}
                 >
-                  <strong>Acurácia:</strong> {r.accuracy.toFixed(2)}% <br />
-                  <strong>RT Médio:</strong> {r.meanRT.toFixed(2)}ms <br />
-                  <strong>Tipo:</strong> {r.advanced ? "Advanced" : "Basic"}{" "}
+                  <strong>Accuracy:</strong> {r.accuracy.toFixed(2)}% <br />
+                  <strong>Mean RT:</strong> {r.meanRT.toFixed(2)}ms <br />
+                  <strong>Type:</strong> {r.advanced ? "Advanced" : "Basic"}{" "}
                   <br />
-                  <strong>Data:</strong>{" "}
+                  <strong>Date:</strong>{" "}
                   {r.createdAt?.toLocaleString() ?? "n/a"}
                 </li>
               ))}

@@ -5,7 +5,7 @@ import AdvancedRTExperiment from "./components/AdvancedRTExperiment";
 import ResultsView from "./components/ResultsView";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState("menu"); // 'menu', 'normal', 'advanced', 'results'
+  const [currentView, setCurrentView] = useState("menu");
 
   const handleBackToMenu = () => {
     setCurrentView("menu");
@@ -29,7 +29,7 @@ export default function Home() {
             zIndex: 1000,
           }}
         >
-          ← Voltar ao Menu
+          ← Back to Menu
         </button>
         <RTExperiment onFinish={handleBackToMenu} />
       </>
@@ -54,7 +54,7 @@ export default function Home() {
             zIndex: 1000,
           }}
         >
-          ← Voltar ao Menu
+          ← Back to Menu
         </button>
         <AdvancedRTExperiment onFinish={handleBackToMenu} />
       </>
@@ -79,7 +79,7 @@ export default function Home() {
             zIndex: 1000,
           }}
         >
-          ← Voltar ao Menu
+          ← Back to Menu
         </button>
         <ResultsView />;
       </>
@@ -122,7 +122,7 @@ export default function Home() {
             lineHeight: "1.5",
           }}
         >
-          Escolha um experimento para começar
+          Choose an experiment to begin
         </p>
 
         <div
@@ -146,7 +146,7 @@ export default function Home() {
               width: "250px",
             }}
           >
-            🎯 Experimento Básico
+            Basic Experiment
           </button>
 
           <button
@@ -162,7 +162,7 @@ export default function Home() {
               width: "250px",
             }}
           >
-            🔬 Experimento Avançado
+            Advanced Experiment
           </button>
 
           <button
@@ -178,7 +178,7 @@ export default function Home() {
               width: "250px",
             }}
           >
-            📊 Resultados Recentes
+            Recent Results
           </button>
         </div>
 
@@ -192,16 +192,15 @@ export default function Home() {
           }}
         >
           <h3 style={{ color: "#333", marginBottom: "10px" }}>
-            Descrição dos Experimentos:
+            Experiment Descriptions:
           </h3>
           <ul style={{ color: "#666", lineHeight: "1.6", paddingLeft: "20px" }}>
             <li>
-              <strong>Básico:</strong> Pressione ESPAÇO quando ver círculos
-              azuis
+              <strong>Basic:</strong> Press SPACE when blue circles appear
             </li>
             <li>
-              <strong>Avançado:</strong> Use F (azul) e J (laranja) para
-              diferentes cores
+              <strong>Advanced:</strong> Use F (blue) and J (orange) for
+              different colors
             </li>
           </ul>
         </div>
@@ -214,7 +213,7 @@ export default function Home() {
           fontSize: "0.9rem",
         }}
       >
-        Desenvolvido com Next.js + jsPsych
+        Built with Next.js + jsPsych
       </footer>
     </main>
   );

@@ -8,10 +8,9 @@ import toast from "react-hot-toast";
 const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
   const experimentContainer = useRef<HTMLDivElement>(null);
   const jsPsychRef = useRef<JsPsych | null>(null);
-  const initializedRef = useRef(false); // Ref para controlar inicialização
+  const initializedRef = useRef(false);
 
   useEffect(() => {
-    // Prevenir inicialização dupla
     if (
       jsPsychRef.current ||
       !experimentContainer.current ||
@@ -19,7 +18,6 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
     )
       return;
 
-    // Marcar como inicializado
     initializedRef.current = true;
 
     const initializeExperiment = async () => {
@@ -32,14 +30,12 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
         display_element: experimentContainer.current!,
         on_finish: () => {
           const data = jsPsych.data.get();
-          console.log("Experiment data:", data);
           localStorage.setItem("experiment-data", JSON.stringify(data));
         },
       });
 
       jsPsychRef.current = jsPsych;
 
-      // styling do container
       Object.assign(experimentContainer.current!.style, {
         display: "flex",
         alignItems: "center",
@@ -51,20 +47,18 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
 
       const timeline = [];
 
-      // Instruções
       timeline.push({
         type: HtmlKeyboardResponsePlugin,
         stimulus: `
           <div style="text-align: center; font-size: 24px; max-width: 90vw;">
             <h1>Reaction Time Experiment</h1>
-            <p>Press <strong>SPACE</strong> when you see a blue circle on the screen.</p>
+            <p>Press <strong>SPACE</strong> when you see a blue circle.</p>
             <p>Press <strong>SPACE</strong> to start.</p>
           </div>
         `,
         choices: [" "],
       });
 
-      // Trials
       const test_stimuli = [
         {
           stimulus: "<div style='color: blue; font-size: 48px;'>●</div>",
@@ -105,7 +99,6 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
 
       timeline.push(test_procedure);
 
-      // Resultados
       timeline.push({
         type: HtmlKeyboardResponsePlugin,
         stimulus: function () {
@@ -118,7 +111,7 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
 
           return `
             <div style="text-align: center; font-size: 24px; max-width: 90vw;">
-              <h2>Experiment Completed!</h2>
+              <h2>Experiment Completed</h2>
               <p><strong>Accuracy:</strong> ${accuracy}%</p>
               <p><strong>Average Reaction Time:</strong> ${rt}ms</p>
               <p>Press SPACE to finish.</p>
@@ -138,7 +131,6 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
             100;
 
           const meanRT = jsPsych.data.get().select("rt").mean();
-          console.log("Starting experiment...", trials);
 
           await saveResult({
             participantId: crypto.randomUUID(),
@@ -147,16 +139,15 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
             rawTrials: trials,
             advanced: false,
           });
+
           toast.success("Experiment data successfully saved to Firebase!");
-          console.log("Salvo com sucesso!");
         } catch (err) {
           toast.error("Failed to save experiment data.");
-          console.error("Erro ao salvar:", err);
         }
       }
+
       jsPsych.run(timeline).then(async () => {
         await sendResults();
-        console.log("results sended.");
         onFinish?.();
       });
     };
@@ -169,8 +160,6 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
         if (displayElement && displayElement.innerHTML) {
           displayElement.innerHTML = "";
         }
-        // Também podemos resetar a flag se necessário
-        // initializedRef.current = false;
       }
     };
   }, []);

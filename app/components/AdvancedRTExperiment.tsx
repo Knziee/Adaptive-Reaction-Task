@@ -1,29 +1,25 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { TrialData } from "../types/types";
 import type { JsPsych } from "jspsych";
+import { TrialData } from "../types/types";
 import { saveResult } from "@/app/service/saveResult";
 import toast from "react-hot-toast";
 
 const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
   const experimentContainer = useRef<HTMLDivElement>(null);
   const jsPsychRef = useRef<JsPsych | null>(null);
-  const initializedRef = useRef(false); // Ref para controlar inicialização
+  const initializedRef = useRef(false);
 
   useEffect(() => {
-    // ✅ PREVENIR INICIALIZAÇÃO DUPLA
     if (
       jsPsychRef.current ||
       !experimentContainer.current ||
       initializedRef.current
     )
       return;
-
-    // ✅ MARCAR COMO INICIALIZADO
     initializedRef.current = true;
 
-    const initializeExperiment = async () => {
-      // ✅ IMPORTS DINÂMICOS — resolvem "window is not defined"
+    const initialize = async () => {
       const { initJsPsych } = await import("jspsych");
       const HtmlKeyboardResponsePlugin = (
         await import("@jspsych/plugin-html-keyboard-response")
@@ -39,7 +35,6 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
 
       jsPsychRef.current = jsPsych;
 
-      // Container style
       Object.assign(experimentContainer.current!.style, {
         display: "flex",
         alignItems: "center",
@@ -51,7 +46,6 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
 
       const timeline = [];
 
-      // Instructions
       timeline.push({
         type: HtmlKeyboardResponsePlugin,
         stimulus: `
@@ -61,7 +55,7 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
             <ul style="text-align: left; display: inline-block;">
               <li>Press <strong style="color: blue;">F</strong> when you see a BLUE circle</li>
               <li>Press <strong style="color: orange;">J</strong> when you see an ORANGE circle</li>
-              <li>Respond as quickly and accurately as possible!</li>
+              <li>Respond as fast and accurately as possible</li>
             </ul>
             <p style="margin-top: 30px; color: #666;">Press SPACE to start</p>
           </div>
@@ -69,7 +63,6 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
         choices: [" "],
       });
 
-      // Stimuli
       const stimuli = [
         {
           stimulus: "<div style='color: blue; font-size: 48px;'>●</div>",
@@ -85,8 +78,7 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
         },
       ];
 
-      // Trial procedure
-      const trial_procedure = {
+      const trialProcedure = {
         timeline: [
           {
             type: HtmlKeyboardResponsePlugin,
@@ -110,9 +102,8 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
         repetitions: 3,
       };
 
-      timeline.push(trial_procedure);
+      timeline.push(trialProcedure);
 
-      // Results
       timeline.push({
         type: HtmlKeyboardResponsePlugin,
         stimulus: function () {
@@ -127,11 +118,11 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
             <div style="text-align: center; max-width: 600px;">
               <h1>Final Results</h1>
               <div style="font-size: 1.2rem; line-height: 2;">
-                <p>🎯 Accuracy: <strong>${accuracy}%</strong></p>
-                <p>⚡ Average Reaction Time: <strong>${rt}ms</strong></p>
-                <p>📊 Total Trials: <strong>${data.count()}</strong></p>
+                <p>Accuracy: <strong>${accuracy}%</strong></p>
+                <p>Average Reaction Time: <strong>${rt}ms</strong></p>
+                <p>Total Trials: <strong>${data.count()}</strong></p>
               </div>
-              <p style="margin-top: 30px; color: #666;">Press SPACE to return to menu</p>
+              <p style="margin-top: 30px; color: #666;">Press SPACE to return</p>
             </div>
           `;
         },
@@ -141,12 +132,10 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
       async function sendResults() {
         try {
           const trials = jsPsych.data.get().values();
-
           const accuracy =
             (jsPsych.data.get().filter({ correct: true }).count() /
               trials.length) *
             100;
-
           const meanRT = jsPsych.data.get().select("rt").mean();
 
           await saveResult({
@@ -156,29 +145,26 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
             rawTrials: trials,
             advanced: true,
           });
-          toast.success("Experiment data successfully saved to Firebase!");
-          console.log("Salvo com sucesso!");
+
+          toast.success("Experiment data successfully saved.");
         } catch (err) {
           toast.error("Failed to save experiment data.");
-          console.error("Erro ao salvar:", err);
+          console.error(err);
         }
       }
 
       jsPsych.run(timeline).then(async () => {
         await sendResults();
-        console.log("results sended.");
         onFinish?.();
       });
     };
 
-    initializeExperiment();
+    initialize();
 
     return () => {
       if (jsPsychRef.current) {
-        const displayElement = jsPsychRef.current.getDisplayElement();
-        if (displayElement && displayElement.innerHTML) {
-          displayElement.innerHTML = "";
-        }
+        const element = jsPsychRef.current.getDisplayElement();
+        if (element && element.innerHTML) element.innerHTML = "";
       }
     };
   }, []);

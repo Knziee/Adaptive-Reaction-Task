@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "jsPsych Demo - Next.js",
-  description: "Experimento de Tempo de Reação com jsPsych e Next.js",
+  description: "Reaction Time Experiment with jsPsych and Next.js",
 };
 
 export default function RootLayout({
