@@ -3,6 +3,10 @@
 A simple front-end demo built with **Next.js**, **React**, **TypeScript**, **jsPsych**, and **Firebase**.  
 This project allows users to run basic and advanced reaction time experiments and save results to Firebase.
 
+## 🌐 Live Demo
+
+**[🔗 View Live Application]([https://your-deployed-link-here.com](https://adaptive-reaction-task.vercel.app/)**
+
 ---
 
 ## 🚀 Features
