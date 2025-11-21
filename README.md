@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Reaction Time Experiments – Next.js + jsPsych + Firebase
 
-## Getting Started
+A simple front-end demo built with **Next.js**, **React**, **TypeScript**, **jsPsych**, and **Firebase**.  
+This project allows users to run basic and advanced reaction time experiments and save results to Firebase.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- **Two experiment modes**
+  - 🎯 Basic Reaction Time (SPACE key)
+  - 🔬 Advanced Color Reaction (F / J keys)
+- **Firebase result storage**
+  - Saves accuracy, mean reaction time, and raw trials
+- **Results view page**
+  - Fetches and displays recent experiment submissions
+- **React + Next.js integration**
+  - Fully client-side components using `"use client"`
+- **Clean jsPsych wrappers**
+  - Custom timelines  
+  - Stimuli randomization  
+  - On-finish callbacks  
+
+---
+
+## 📁 Project Structure
+
+/app
+  /components
+    RTExperiment.tsx
+    AdvancedRTExperiment.tsx
+    ResultsView.tsx
+    page.tsx
+layout.tsx
+globals.css
+
+  /service
+    saveResult.ts
+    getResults.ts
+    firebase.ts
+
+  /types
+    types.ts
+
+## 🛠️ Technologies Used
+
+- **Next.js**
+- **React**
+- **TypeScript**
+- **jsPsych**
+- **Firebase Firestore database**
+- **React Hot Toast**
+- **Vercel**
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
 
 ```bash
+git clone https://github.com/Knziee/Adaptive-Reaction-Task.git
+cd reaction-time-demo
+
+npm install
+
+Create a .env.local file in the project root:
+
+NEXT_PUBLIC_FIREBASE_API_KEY=yourApiKey
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=yourAuthDomain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=yourProjectId
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=yourStorageBucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=yourMessagingSenderId
+NEXT_PUBLIC_FIREBASE_APP_ID=yourAppId
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=yourMeasurementId
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧱 Extending the Project
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Ideas to expand this project:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**User Management**
+- User authentication (Google, email/password, etc.)
 
-## Learn More
+**Experiment Features**  
+- Additional jsPsych plugins
+- Adaptive difficulty
+- Multi-user experiments / lobbies (using Firebase Realtime Database)
 
-To learn more about Next.js, take a look at the following resources:
+**Data & Analysis**
+- CSV export, dashboards, or integrations with data analysis tools
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
