@@ -5,7 +5,9 @@ This project allows users to run basic and advanced reaction time experiments an
 
 ## 🌐 Live Demo
 
-**[🔗 View Live Application](https://adaptive-reaction-task.vercel.app/)**
+<a href="https://adaptive-reaction-task.vercel.app/" target="_blank" rel="noopener noreferrer">
+  🔗 View Live Application
+</a>
 
 ---
 
