@@ -132,21 +132,25 @@ const AdvancedRTExperiment = ({ onFinish }: { onFinish: () => void }) => {
       async function sendResults() {
         try {
           const trials = jsPsych.data.get().values();
-          const accuracy =
-            (jsPsych.data.get().filter({ correct: true }).count() /
-              trials.length) *
-            100;
-          const meanRT = jsPsych.data.get().select("rt").mean();
+
+          const data = jsPsych.data.get().filter({ test_part: "test" });
+          const correctTrials = data.filter({ correct: true });
+
+          const accuracy = Math.round(
+            (correctTrials.count() / data.count()) * 100
+          );
+
+          const meanRT = Math.round(correctTrials.select("rt").mean());
 
           await saveResult({
             participantId: crypto.randomUUID(),
             accuracy,
             meanRT,
             rawTrials: trials,
-            advanced: true,
+            advanced: false,
           });
 
-          toast.success("Experiment data successfully saved.");
+          toast.success("Experiment data successfully saved to Firebase!");
         } catch (err) {
           toast.error("Failed to save experiment data.");
           console.error(err);

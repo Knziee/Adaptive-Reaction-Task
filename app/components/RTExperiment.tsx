@@ -125,12 +125,14 @@ const RTExperiment = ({ onFinish }: { onFinish: () => void }) => {
         try {
           const trials = jsPsych.data.get().values();
 
-          const accuracy =
-            (jsPsych.data.get().filter({ correct: true }).count() /
-              trials.length) *
-            100;
+          const data = jsPsych.data.get().filter({ test_part: "test" });
+          const correctTrials = data.filter({ correct: true });
 
-          const meanRT = jsPsych.data.get().select("rt").mean();
+          const accuracy = Math.round(
+            (correctTrials.count() / data.count()) * 100
+          );
+
+          const meanRT = Math.round(correctTrials.select("rt").mean());
 
           await saveResult({
             participantId: crypto.randomUUID(),
